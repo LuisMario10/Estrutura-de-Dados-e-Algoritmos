@@ -1,0 +1,1 @@
+O Programa deve perguntar a pontuacao de ambos os times e falar o vencedor ou se teve empate

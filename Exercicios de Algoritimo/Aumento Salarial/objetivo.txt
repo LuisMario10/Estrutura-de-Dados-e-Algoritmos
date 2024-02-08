@@ -1,0 +1,6 @@
+O programa deve perguntar o nome do usuario e seu salario para realizar o calculo de quanto ficará o salario de um fucionario, em reais, após o aumento de 15%
+
+exemplo: 
+nome: fulano
+salario do funcionario: 1,500
+com aumento: 1,725

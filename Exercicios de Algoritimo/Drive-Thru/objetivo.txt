@@ -1,0 +1,3 @@
+mostrar opcoes de produtos
+poder escolher
+depois da escolha mostrar o valor total

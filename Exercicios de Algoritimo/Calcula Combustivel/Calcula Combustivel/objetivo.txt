@@ -1,0 +1,33 @@
+# O objetivo é fornecer a quantidade de combustivel necessaria para a quilometragem fornecida e ainda 
+indicar se deve ou nao abastecer ou quando terá que abastecer.
+
+Unidades de medida:
+    Vazao: km/l
+    Distancia: km
+    combustivel: litro
+
+
+Exemplo: 
+    (caso 1)
+
+    distancia = 10km
+    combustivel = 40l
+    vazao = 2km/l
+
+    2 km --- 1 l
+    10 km -- xl
+
+    x = 5 litros
+    nao precisa abastecer
+
+    (caso 2)
+
+    distancia = 40km
+    combustivel = 9l
+    vazao = 4km/l
+
+    4 km --- 1 l
+    40 km -- xl
+
+    x = 10 litros
+    precisa abastecer a 36 Km
