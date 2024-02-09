@@ -10,3 +10,10 @@ char *getStringList(StringList *stringListRef, int index);
 void appendStringList(StringList *stringListRef, char *element);
 void printStringList(StringList *strigListRef);
 void destroyStringList(StringList **stringListRef);
+
+
+struct _string_list  {
+    char **strings;
+    int capacity; 
+    int size;
+};

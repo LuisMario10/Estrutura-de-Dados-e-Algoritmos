@@ -2,12 +2,6 @@
 #include <stdlib.h>
 #include "stringList.h"
 
-struct _string_list  {
-    char **strings;
-    int capacity; 
-    int size;
-};
-
 char *createDynamicString(int sizeString) {
     char *newString = (char*) calloc(sizeString, sizeof(char));
     return newString;
@@ -64,7 +58,7 @@ void printStringList(StringList *stringListRef) {
 void destroyStringList(StringList **stringListRef) {
     StringList *auxStringList = *stringListRef;
     for(int i = 0; i < auxStringList->size; i++) {
-        destroyDynamicString(auxStringList->strings[i]);
+        destroyDynamicString(&(auxStringList->strings[i]));
     }
     free(auxStringList->strings);
     auxStringList->strings = NULL;
