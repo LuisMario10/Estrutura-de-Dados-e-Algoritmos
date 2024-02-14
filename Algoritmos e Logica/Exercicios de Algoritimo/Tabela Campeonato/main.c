@@ -18,6 +18,7 @@ typedef struct _championship {
 
 Team *createTeam(char *name) {
     Team *newTeam = (Team*) calloc(1, sizeof(Team));
+    newTeam->name = NULL;
     newTeam->name = name;
     newTeam->pointing = 0;
     return newTeam;
@@ -50,39 +51,22 @@ Championship *createChampionship(char *name, int numberofTeams) {
     return newChampionship;
 }
 
-// void addTeamInClassification(Championship *championshipRef, Team *teamRef) {
-//     championshipRef->classification[championshipRef->sizeClassification] = teamRef;
-// }
-
-void viewClassification(Championship *championshipRef) {
-    printf("==========%s==========\nPosicao - Nome do Time - Pontos\n\n",championshipRef->name);
-    for(int i = 0; i < championshipRef->numberofTeams; i++) {
-        printf("Posicao: %i - ", i + 1);
-        viewTeam(championshipRef->classification[i]);
+void addTeamInClassification(Championship *championshipRef, Team *teamRef) {
+    if(championshipRef->sizeClassification == championshipRef->numberofTeams) {
+        printf("Campeonato esta lotado");
+    } else {
+        championshipRef->classification[championshipRef->sizeClassification] = teamRef;
+        championshipRef->sizeClassification++;
     }
 }
 
-void startChampionship(Championship *championshipRef) {
-    int resultado = 10;
-    for(int i = 0; i < championshipRef->sizeClassification; i++) {
-        for(int j = i+1; j < championshipRef->sizeClassification; j++) {
-            printf("Jogo: %s x %s\n\n", 
-            championshipRef->classification[i]->name, 
-            championshipRef->classification[j]->name);
-
-            printf("[0]%s vence [1]%s vence ou [2]empate\n", 
-            championshipRef->classification[1]->name,
-            championshipRef->classification[j]->name);
-            scanf("%i", &resultado);
-            if(resultado == 0) {
-                teamWin(championshipRef->classification[i]);
-            } else if(resultado == 1) {
-                teamWin(championshipRef->classification[j]);
-            } else {
-                teamDraw(championshipRef->classification[i]);
-                teamDraw(championshipRef->classification[j]);
-            }
-        }
+void viewClassification(Championship *championshipRef) {
+    printf("==========%s==========\n", championshipRef->name);
+    printf("Posicao - Nome do Time - Pontos\n\n");
+    for(int i = 0; i < 5; i++) {
+        printf("Posicao: %i - %s - %i\n", i + 1, 
+        championshipRef->classification[i]->name,
+        championshipRef->classification[i]->pointing);
     }
 }
 
@@ -90,7 +74,6 @@ void clearChampionship(Championship **championshipRef) {
     Championship *AUXchampionshipRef = *championshipRef;
     for(int i = 0; i < AUXchampionshipRef->sizeClassification; i++) {
         clearTeam(&(AUXchampionshipRef->classification[i]));
-        AUXchampionshipRef->classification[i] = NULL;
     }
     free(AUXchampionshipRef->classification);
     AUXchampionshipRef->classification = NULL;
@@ -101,35 +84,51 @@ void clearChampionship(Championship **championshipRef) {
 
 
 int main(void) {
-    char namesTeams[20][100] = {
-        {"Botafogo"},
-        {"SaoPaulo"},
-        {"Corinthians"},
-        {"Vasco"},
-        {"Flamengo"},
-        {"Juventude"},
-        {"Vitoria"},
-        {"Criciuma"},
-        {"Internacional"},
-        {"Palmeiras"},
-        {"Gremio"},
-        {"RbBragantino"},
-        {"Cuiaba"},
-        {"Fortaleza"},
-        {"Bahia"},
-        {"Fluminense"},
-        {"Crizeiro"},
-        {"AtleticoMG"},
-        {"AtleticoGO"},
-        {"AthleticoPR"},
-    };
+    Championship *newChampionship = createChampionship("Campeonato-Teste", 5);
 
-    Championship *newChampionship = createChampionship("Brasileirao", 20);
-    for(int i = 0; i < newChampionship->numberofTeams; i++) {
-        newChampionship->classification[i] = createTeam(namesTeams[i]);
+    Team *clube1 = createTeam("Time A");
+    Team *clube2 = createTeam("Time B");
+    Team *clube3 = createTeam("Time C");
+    Team *clube4 = createTeam("Time D");
+    Team *clube5 = createTeam("Time E");
+    addTeamInClassification(newChampionship, clube1);
+    addTeamInClassification(newChampionship, clube2);
+    addTeamInClassification(newChampionship, clube3);
+    addTeamInClassification(newChampionship, clube4);
+    addTeamInClassification(newChampionship, clube5);
+    // Stert Championship
+    for(int i = 0; i < newChampionship->sizeClassification; i++) {
+        for(int j = i+1; j < newChampionship->sizeClassification; j++) {
+            int decisions[newChampionship->sizeClassification];
+            printf("%s x %s: ", 
+            newChampionship->classification[i]->name,
+            newChampionship->classification[j]->name);
+            printf("[0] Empate - [1] Casa vence - [2] Visitante vence: \n");
+            scanf("%i", &decisions[j]);
+            if(decisions[j] == 0) {
+                teamDraw(newChampionship->classification[i]);
+                teamDraw(newChampionship->classification[j]);
+            } else if(decisions[j] == 1) {
+                teamWin(newChampionship->classification[i]);
+            } else if(decisions[j] == 2) {
+                teamWin(newChampionship->classification[j]);
+            }
+        }
     }
-    startChampionship(newChampionship);
-    //viewClassification(newChampionship);
+
+    Team *aux;
+    for(int i = 0; i < newChampionship->sizeClassification; i++){
+        for(int j = 0; j < (newChampionship->sizeClassification - i - 1); j++){
+            if(newChampionship->classification[j]->pointing < 
+            newChampionship->classification[j + 1]->pointing) {
+                aux = newChampionship->classification[j];
+                newChampionship->classification[j] = newChampionship->classification[j + 1];
+                newChampionship->classification[j + 1] = aux;
+            }
+        }
+    }
+    viewClassification(newChampionship);
+    
     clearChampionship(&newChampionship);
     return 0;
 }
