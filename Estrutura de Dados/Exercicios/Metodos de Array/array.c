@@ -10,6 +10,13 @@ integerArray *newIntegerArray(int size) {
     return array;
 }
 
+void print(integerArray *arrayRef) {
+    for(int i = 0; i < arrayRef->size; i++) {
+        printf("posicao %i - %i\n", i, arrayRef->array[i]);
+    }
+    printf("\n");
+}
+
 void add(integerArray *arrayRef, int numberRef) {
     if(arrayRef->now == arrayRef->size) {
         printf("Array is full!");
@@ -19,17 +26,39 @@ void add(integerArray *arrayRef, int numberRef) {
     }
 }
 
-void remove(integerArray *arrayRef, int numberId);
-
-void removeFinal(integerArray *arrayRef) {
-     arrayRef->array[arrayRef->size] = 0;
+void removeFinal(integerArray **arrayRef) { 
+    integerArray *arrayAUX = *arrayRef;
+    arrayAUX->now--;
+    arrayAUX->array[arrayAUX->now] = 0; 
 }
 
-int sumAll(integerArray *arrayRef);
+void removeNumber(integerArray **arrayRef, int numberId) {
+    integerArray *arrayAUX = *arrayRef;
+    arrayAUX->array[numberId] = 0;
+    arrayAUX->now--;
+}
 
-int search(int numberRef);
+int sumAll(integerArray *arrayRef) {
+    int sum = 0;
+    for(int i = 0; i < arrayRef->size; i++) {
+        sum = sum + arrayRef->array[i];
+    }
+    return sum;
+}
 
-int sort(integerArray *arrayRef);
+void sort(integerArray **arrayRef) {
+    integerArray *arrayAUX = *arrayRef;
+    int AUX;
+    for(int i = 0; i < (arrayAUX->size); i++) {
+        for(int j = 0; j < (arrayAUX->size - i - 1); j++) {
+            if(arrayAUX->array[j] > arrayAUX->array[j+1]) {
+                AUX = arrayAUX->array[j];
+                arrayAUX->array[j] = arrayAUX->array[j+1];
+                arrayAUX->array[j+1] = AUX;
+            }
+        }
+    }
+}
 
 void deleteIntergerArray(integerArray **arrayRef) {
     free((*arrayRef)->array);
