@@ -3,18 +3,17 @@
 #include "array.h"
 
 int main() {
-    integerArray *myArray = newIntegerArray(7);
-    add(myArray, 5);
-    add(myArray, 7);
-    add(myArray, 10);
-    add(myArray, 11);
-    add(myArray, 20);
+    integerArray *myArray = new_IntegerArray(10);
+    add(myArray, 1);
+    add(myArray, 4);
     add(myArray, 8);
-    add(myArray, 9);
-    sort(&myArray);
+    add(myArray, 16);
+    add(myArray, 32);
+    add(myArray, 64);
+    add(myArray, 128);
     print(myArray);
-    removeNumber(&myArray, 2);
+    removeNumber(&myArray, 4);
     print(myArray);
-    deleteIntergerArray(&myArray);
+    delete_IntergerArray(&myArray);
     return 0;
 }

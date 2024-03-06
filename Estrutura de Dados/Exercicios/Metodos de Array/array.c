@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include "array.h"
 
-integerArray *newIntegerArray(int size) {
+integerArray *new_IntegerArray(int size) {
     integerArray *array = (integerArray*) calloc(1, sizeof(integerArray));
     array->array = (int*) calloc(size, sizeof(int));
     array->now = 0;
@@ -31,11 +31,30 @@ void removeFinal(integerArray **arrayRef) {
     arrayAUX->now--;
     arrayAUX->array[arrayAUX->now] = 0; 
 }
-
 void removeNumber(integerArray **arrayRef, int numberId) {
     integerArray *arrayAUX = *arrayRef;
-    arrayAUX->array[numberId] = 0;
-    arrayAUX->now--;
+    int arraySize = arrayAUX->now;
+    if(numberId == arrayAUX->now) {
+        removeFinal(arrayRef);
+    } else {
+        int aux;
+        for(int i = numberId; i < arraySize; i++) {
+            arrayAUX->array[i] = arrayAUX->array[i + 1];
+        }
+        arrayAUX->array[arraySize] = 0;
+        arrayAUX->now--;
+    }
+}
+
+void invertArray(integerArray **arrayRef) {
+    integerArray *arrayAUX = *arrayRef;
+    int arraySize = arrayAUX->now - 1;
+    int aux;
+    for(int i = 0; i < (arraySize/2); i++) {
+        aux = arrayAUX->array[i];
+        arrayAUX->array[i] = arrayAUX->array[arraySize - i];
+        arrayAUX->array[arraySize - i] = aux;
+    }
 }
 
 int sumAll(integerArray *arrayRef) {
@@ -60,7 +79,7 @@ void sort(integerArray **arrayRef) {
     }
 }
 
-void deleteIntergerArray(integerArray **arrayRef) {
+void delete_IntergerArray(integerArray **arrayRef) {
     free((*arrayRef)->array);
     (*arrayRef)->array = NULL;
     free(*arrayRef);
