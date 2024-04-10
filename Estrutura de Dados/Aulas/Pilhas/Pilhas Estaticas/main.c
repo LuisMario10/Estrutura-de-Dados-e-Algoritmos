@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 #define SIZE_STACK 10
 
@@ -17,18 +18,12 @@ Stack* new_Stack(int capacity) {
     return newStack;
 }
 
-int S_isEmpty(Stack* stackRef) {
-    if(stackRef->size == 0) {
-        return 1;
-    }
-    return 0;
+bool S_isEmpty(Stack* stackRef) {
+    return stackRef->size == 0;
 }
 
 int S_isFull(Stack* stackRef) {
-    if(stackRef->size == stackRef->capacity) {
-        return 1;
-    }
-    return 0;
+    return stackRef->size == stackRef->capacity;
 }
 
 void S_push(Stack* stackRef, int number) {
