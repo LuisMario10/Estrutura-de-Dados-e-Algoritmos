@@ -44,6 +44,28 @@ void DLL_add(DualLinkedList* DLLref, int data) {
     } 
 }
 
+void DLL_addFinal(DualLinkedList* DLLref, int data) {
+    Node* node = new_Node(data);
+    if(DLL_isEmpty(DLLref)) {
+        DLL_add(DLLref, data);
+    } else {
+        node->prev = DLLref->end;
+        DLLref->end->next = node;
+        DLLref->end = DLLref->end->next;
+    }
+}
+
+Node* DLL_findElement(DualLinkedList* DLLref, int data) {
+    Node* aux = DLLref->begin;
+    while (aux != NULL) {
+        if(aux->data == data) {
+            return aux;
+        }
+        aux = aux->next;
+    }
+    return aux;
+}
+
 void DLL_print(DualLinkedList* DLLref) {
     printf("Begin -> ");
     if(DLL_isEmpty(DLLref)) {
@@ -60,12 +82,12 @@ void DLL_print(DualLinkedList* DLLref) {
 
 int main() {
     DualLinkedList* myDLL = new_DualLinkedList();
-    DLL_add(myDLL,1);
-    DLL_add(myDLL,2);
-    DLL_add(myDLL,3);
-    DLL_add(myDLL,4);
-    DLL_add(myDLL,5);
+    DLL_addFinal(myDLL, 1);
+    DLL_addFinal(myDLL, 34);
+    DLL_addFinal(myDLL, 324);
+    DLL_add(myDLL, 14);
+    Node* myElement = DLL_findElement(myDLL, 14);
     DLL_print(myDLL);
-    printf("\n%i", myDLL->begin->data);
+    printf("\n%i", myElement == NULL);
     return 0;
 }
