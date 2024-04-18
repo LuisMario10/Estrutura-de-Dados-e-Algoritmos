@@ -30,30 +30,48 @@ bool isFull(Queue* queueRef) {
 
 void enqueue(Queue* queueRef, int data) {
     if(isFull(queueRef)) {
-        printf("Fila Cheia!!");
-    } else {
-        queueRef->datas[queueRef->end] = data;
-        queueRef->end = (queueRef->end + 1) % queueRef->capacity;
-        queueRef->size++;   
+        fprintf(stderr, "Error in Queue!");
+        fprintf(stderr, "Queue is Full!");
+        exit(EXIT_FAILURE);
     }
+    queueRef->datas[queueRef->end] = data;
+    queueRef->end = (queueRef->end + 1) % queueRef->capacity;
+    queueRef->size++;
 }
 
 int dequeue(Queue* queueRef) {
     if(isEmpty(queueRef)) {
-        return -1;
-    }
+        fprintf(stderr, "Error in Vazia!");
+        fprintf(stderr, "Queue is Empty!");
+        exit(EXIT_FAILURE);
+    } 
     int data = queueRef->datas[queueRef->begin];
-    queueRef->datas[queueRef->begin] = 0;
     queueRef->begin = (queueRef->begin + 1) % queueRef->capacity;
-    queueRef->size++;
     return data;
 }
 
 void printQueue(Queue* queueRef) {
-    for(int i = queueRef->begin; i < (queueRef->size); i++) {
-        printf("%i - ", queueRef->datas[i]);
+    printf("Begin = %i\n", queueRef->begin);
+    printf("End = %i\n", queueRef->end);
+    printf("Capacity = %i\n", queueRef->capacity);
+    printf("Size = %i\n", queueRef->size);
+    printf("Queue-datas = ");
+    long s, i;
+    for(int s = 0; s < queueRef->size; s++, i = (i + 1)%queueRef->capacity) {
+        printf("%i, ", queueRef->datas[i]);
     }
+    printf("\n");
 }
+
+int peek(Queue* queueRef) {
+    if(isEmpty(queueRef)) {
+        fprintf(stderr, "Error in Vazia!\n");
+        fprintf(stderr, "Queue is Empty!\n");
+        exit(EXIT_FAILURE);
+    }
+    return queueRef->datas[queueRef->begin];
+}
+
 int main() {
     Queue* myQueue = new_Queue(5);
     enqueue(myQueue, 1);
@@ -61,6 +79,8 @@ int main() {
     enqueue(myQueue, 86);
     enqueue(myQueue, 55);
     dequeue(myQueue);
+    dequeue(myQueue);
     printQueue(myQueue);
+    //printf("\nBegin = %i\nEnd = %i", myQueue->begin, myQueue->end);
     return 0;
 }
